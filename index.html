@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Convierte imágenes PNG a SVG, 100% offline y sin subir nada a ningún servidor. / Convert PNG images to SVG, 100% offline and never uploaded.">
+  <meta name="theme-color" content="#0d1117">
+  <title>PNG a SVG · PNG to SVG</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <img src="icons/icon.svg" width="38" height="38" alt="">
+      </span>
+      <div>
+        <h1 data-i18n="appName">PNG a SVG</h1>
+        <p data-i18n="appTagline">Vectoriza tus imágenes sin conexión</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span class="offline-badge" title="Offline ready"><span class="dot" aria-hidden="true"></span><span data-i18n="offlineBadge">100% sin conexión</span></span>
+      <button id="themeToggle" class="icon-btn" type="button" aria-label="Cambiar tema" title="Cambiar tema">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
+      </button>
+      <button id="langToggle" class="lang-btn" type="button" aria-label="Change language">EN</button>
+      <button id="installBtn" class="btn btn-small primary hidden" type="button" data-i18n="installButton">Instalar app</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel controls" aria-labelledby="sourceTitle">
+      <h2 id="sourceTitle" data-i18n="sourceTitle">1. Elige una imagen</h2>
+
+      <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-labelledby="dropTitle" aria-describedby="dropHint">
+        <svg class="drop-icon" viewBox="0 0 24 24" width="40" height="40" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 16v2.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <strong id="dropTitle" data-i18n="uploadTitle">Suelta tu PNG aquí</strong>
+        <span id="dropHint" data-i18n="uploadHint">Haz clic para buscar o pega una imagen con Ctrl+V</span>
+        <span class="file-badge hidden" id="fileBadge"></span>
+      </div>
+      <input id="fileInput" type="file" accept="image/png,image/*" class="visually-hidden">
+
+      <div class="samples">
+        <span data-i18n="samplesTitle">O prueba con un ejemplo:</span>
+        <div class="sample-row">
+          <button class="chip" type="button" data-sample="logo" data-i18n="sampleLogo">Logo</button>
+          <button class="chip" type="button" data-sample="badge" data-i18n="sampleBadge">Insignia</button>
+          <button class="chip" type="button" data-sample="scene" data-i18n="sampleScene">Paisaje</button>
+        </div>
+      </div>
+
+      <h2 data-i18n="optionsTitle">2. Ajustes de conversión</h2>
+
+      <div class="field">
+        <label for="mode" data-i18n="modeLabel">Modo</label>
+        <select id="mode">
+          <option value="mono" data-i18n="modeMono">Blanco y negro (trazado)</option>
+          <option value="color" data-i18n="modeColor">Color (cuantizado)</option>
+          <option value="gray" data-i18n="modeGray">Escala de grises</option>
+          <option value="embed" data-i18n="modeEmbed">Incrustar PNG (sin pérdida)</option>
+        </select>
+        <p class="hint" id="modeHint"></p>
+      </div>
+
+      <div class="field mode-field" data-mode="mono">
+        <label for="threshold"><span data-i18n="thresholdLabel">Umbral</span> <output id="thresholdOut">128</output></label>
+        <input id="threshold" type="range" min="0" max="255" value="128">
+        <p class="hint" data-i18n="thresholdHint">Los píxeles más oscuros se convierten en forma.</p>
+      </div>
+
+      <div class="field mode-field" data-mode="color gray">
+        <label for="colors"><span data-i18n="colorsLabel">Número de colores</span> <output id="colorsOut">8</output></label>
+        <input id="colors" type="range" min="2" max="24" value="8">
+        <p class="hint" data-i18n="colorsHint">Menos colores = SVG más simple y ligero.</p>
+      </div>
+
+      <div class="field">
+        <label for="simplify"><span data-i18n="simplifyLabel">Simplificación</span> <output id="simplifyOut">1.2</output></label>
+        <input id="simplify" type="range" min="0" max="60" value="12">
+        <p class="hint" data-i18n="simplifyHint">Reduce puntos; valores altos dan curvas más limpias.</p>
+      </div>
+
+      <div class="field" data-mode="mono color gray">
+        <label for="minArea"><span data-i18n="minAreaLabel">Área mínima (ruido)</span> <output id="minAreaOut">2</output></label>
+        <input id="minArea" type="range" min="0" max="20" value="2">
+        <p class="hint" data-i18n="minAreaHint">Descarta contornos más pequeños que este valor en px².</p>
+      </div>
+
+      <div class="field">
+        <label for="smooth"><span data-i18n="smoothLabel">Suavizado</span> <output id="smoothOut">40%</output></label>
+        <input id="smooth" type="range" min="0" max="100" value="40">
+        <p class="hint" data-i18n="smoothHint">Convierte esquinas en curvas Bézier.</p>
+      </div>
+
+      <div class="field">
+        <label for="precision" data-i18n="precisionLabel">Decimales en las coordenadas</label>
+        <select id="precision">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+
+      <div class="checks">
+        <label class="check"><input id="invert" type="checkbox"><span data-i18n="invertLabel">Invertir</span></label>
+        <label class="check"><input id="outline" type="checkbox"><span data-i18n="outlineLabel">Solo contorno</span></label>
+        <label class="check"><input id="background" type="checkbox"><span data-i18n="backgroundLabel">Fondo blanco</span></label>
+      </div>
+
+      <div class="actions">
+        <button id="convertBtn" class="btn primary" type="button" disabled>
+          <span data-i18n="convertButton">Convertir a SVG</span>
+        </button>
+        <button id="downloadBtn" class="btn" type="button" disabled data-i18n="downloadButton">Descargar SVG</button>
+        <button id="copyBtn" class="btn" type="button" disabled data-i18n="copyButton">Copiar código</button>
+        <button id="resetBtn" class="btn btn-ghost" type="button" data-i18n="resetButton">Reiniciar</button>
+      </div>
+    </section>
+
+    <section class="panel results" aria-labelledby="previewTitle">
+      <h2 id="previewTitle" data-i18n="previewTitle">3. Resultado</h2>
+
+      <div class="preview-grid">
+        <figure class="preview-box">
+          <figcaption data-i18n="originalLabel">Original</figcaption>
+          <div id="originalPreview" class="preview-canvas"><span class="empty" data-i18n="emptyPreview">La imagen aparecerá aquí</span></div>
+        </figure>
+        <figure class="preview-box">
+          <figcaption data-i18n="vectorLabel">SVG</figcaption>
+          <div id="svgPreview" class="preview-canvas"><span class="empty" data-i18n="emptyPreview">La imagen aparecerá aquí</span></div>
+        </figure>
+      </div>
+
+      <div id="stats" class="stats hidden" aria-live="polite"></div>
+
+      <details id="codeDetails" class="code-details" hidden>
+        <summary data-i18n="codeTitle">Ver código SVG</summary>
+        <pre id="svgCode"></pre>
+      </details>
+
+      <p id="status" class="status" role="status" aria-live="polite" data-i18n="statusReady">Listo para empezar.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p data-i18n="footerNote">Todo se procesa en tu dispositivo. Tus imágenes nunca se suben a ningún servidor.</p>
+    <p class="version">v0.1 · <span data-i18n="pwaNote">Instálala desde el navegador para usarla sin conexión.</span></p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/trace.js"></script>
+  <script src="js/svg-builder.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/sw-register.js"></script>
+</body>
+</html>
