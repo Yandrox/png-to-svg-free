@@ -35,6 +35,16 @@ First load: the service worker caches every app file. After that you can stop th
 
 Para instalarla en Android/Chrome: abre la URL, espera a que el service worker se active y pulsa **Instalar app** (o usa el menú del navegador → *Añadir a pantalla de inicio*).
 
+## APK para Android / Android APK
+
+También hay una APK lista para instalar, compilada con **WebToApp** a partir de esta misma PWA. Descárgala desde la sección [Releases](https://github.com/Yandrox/png-to-svg-free/releases) (`Png_To_Svg_Free_v1.0.0.APK`, versión `1.0.0`, paquete `cu.yandrox.png2svg`).
+
+An installable APK is also available in [Releases](https://github.com/Yandrox/png-to-svg-free/releases), built from this PWA with **WebToApp** (`Png_To_Svg_Free_v1.0.0.APK`, version `1.0.0`, package `cu.yandrox.png2svg`).
+
+Instalación: abre el archivo `.APK` en tu Android y acepta la instalación desde fuentes desconocidas para el instalador. La app incluye la interfaz y el motor de conversión dentro del paquete, así que funciona sin conexión y sin servidor.
+
+To install: open the `.APK` on your Android device and allow installation from unknown sources for the installer. The UI and conversion engine are bundled inside the app, so it works offline with no server.
+
 ## Pruebas / Tests
 
 ```sh
