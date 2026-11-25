@@ -1,5 +1,12 @@
 # PNG a SVG · PNG to SVG
 
+[![Release](https://img.shields.io/github/v/release/Yandrox/png-to-svg-free?label=release&logo=github)](https://github.com/Yandrox/png-to-svg-free/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![JavaScript](https://img.shields.io/github/languages/top/Yandrox/png-to-svg-free?logo=javascript)](https://github.com/Yandrox/png-to-svg-free)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Yandrox/png-to-svg-free/pulls)
+[![Last commit](https://img.shields.io/github/last-commit/Yandrox/png-to-svg-free/main)](https://github.com/Yandrox/png-to-svg-free/commits/main)
+[![Repo size](https://img.shields.io/github/repo-size/Yandrox/png-to-svg-free)](https://github.com/Yandrox/png-to-svg-free)
+
 PWA **100% offline** para convertir imágenes PNG a SVG sin subir nada a ningún servidor. Todo el motor de vectorización está escrito en JavaScript puro dentro de este repositorio: no hay CDNs, librerías externas, APIs remotas ni servicios de terceros.
 
 An **offline-first PWA** that converts PNG images to SVG entirely on your device. The vector engine is pure JavaScript inside this repository: no CDNs, external libraries, remote APIs or third-party services.
@@ -33,6 +40,16 @@ Primera carga: el service worker guarda todos los archivos en caché. Después p
 
 First load: the service worker caches every app file. After that you can stop the server and keep using the app. Opening `index.html` directly from disk also works (without PWA installation).
 
+## Capturas / Screenshots
+
+Interfaz principal en español / Main UI in Spanish:
+
+![Interfaz principal de PNG a SVG](assets/screenshots/sc1.png)
+
+Vista de resultados y opciones / Results and options view:
+
+![Resultados y opciones de PNG a SVG](assets/screenshots/sc2.png)
+
 Para instalarla en Android/Chrome: abre la URL, espera a que el service worker se active y pulsa **Instalar app** (o usa el menú del navegador → *Añadir a pantalla de inicio*).
 
 ## APK para Android / Android APK
@@ -64,6 +81,7 @@ js/trace.js              Motor: marching squares, mediana, simplificación, Béz
 js/svg-builder.js        Serialización del SVG
 js/app.js                Lógica de interfaz, carga, exportación
 js/sw-register.js        Registro del service worker
+assets/screenshots/      Capturas de la interfaz / UI screenshots
 icons/                   Iconos SVG y PNG (192/512)
 tools/generate-icons.py  Generador de iconos sin dependencias
 tests/trace.test.js      Pruebas del motor con Node
